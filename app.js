@@ -383,7 +383,7 @@ app.post('/login', (req, res) => {
   console.log(username);
   console.log(password);
  
-  connection.query(`SELECT * FROM User WHERE password = '${password}' AND username = '${username}'`, (error, results, fields) => {
+  connection.query(`SELECT * FROM user WHERE password = '${password}' AND username = '${username}'`, (error, results, fields) => {
     
     console.log("result: ", results);
 
