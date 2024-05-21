@@ -9,11 +9,18 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// const connection = mysql.createConnection({
+//   host: '172.104.71.209',
+//   user: 'cgloria',
+//   password: 'cgloria1234',
+//   database: 'dev_cgloria'
+// });
+
 const connection = mysql.createConnection({
-  host: '172.104.71.209',
-  user: 'cgloria',
-  password: 'cgloria1234',
-  database: 'dev_cgloria'
+  host: 'localhost',
+  user: 'root',
+  password: '0000',
+  database: 'cgloria_dev'
 });
 
 connection.connect(err => {
@@ -27,7 +34,7 @@ connection.connect(err => {
 app.post('/sermon', (req, res) => {
  console.log(req.body);
  const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM sermon LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM sermon ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -48,9 +55,11 @@ app.get('/sermon_count', (req, res) => {
   });
 });
 
+
+
 app.post('/column', (req, res) => {
  const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM columnTable LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM column_table ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -60,7 +69,7 @@ app.post('/column', (req, res) => {
   });
 });
 app.get('/column_count', (req, res) => {
-  connection.query('SELECT count(*) FROM columnTable', (error, results, fields) => {
+  connection.query('SELECT count(*) FROM column_table', (error, results, fields) => {
     console.log("results: ", results);
     if (error) {
       console.error('Error fetching contacts: ', error);
@@ -72,7 +81,7 @@ app.get('/column_count', (req, res) => {
 });
 app.post('/weekly', (req, res) => {
   const {startRow, pageSize } = req.body
-  connection.query(`SELECT * FROM weeksScript LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM weeks_Script ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -82,7 +91,7 @@ app.post('/weekly', (req, res) => {
   });
 });
 app.get('/weekly_count', (req, res) => {
-  connection.query('SELECT count(*) FROM weeksScript', (error, results, fields) => {
+  connection.query('SELECT count(*) FROM weeks_Script', (error, results, fields) => {
     console.log("results: ", results);
     if (error) {
       console.error('Error fetching contacts: ', error);
@@ -94,7 +103,7 @@ app.get('/weekly_count', (req, res) => {
 });
 app.post('/small', (req, res) => {
   const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM classTable LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM class_table ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -104,7 +113,7 @@ app.post('/small', (req, res) => {
   });
 });
 app.get('/small_count', (req, res) => {
-  connection.query('SELECT count(*) FROM classTable', (error, results, fields) => {
+  connection.query('SELECT count(*) FROM class_table', (error, results, fields) => {
     console.log("results: ", results);
     if (error) {
       console.error('Error fetching contacts: ', error);
@@ -116,7 +125,7 @@ app.get('/small_count', (req, res) => {
 });
 app.post('/notice', (req, res) => {
   const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM Notice LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM notice ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -139,7 +148,7 @@ app.get('/notice_count', (req, res) => {
 
 app.post('/library', (req, res) => {
   const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM schoo_library LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM school_library ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -149,7 +158,7 @@ app.post('/library', (req, res) => {
   });
 });
 app.get('/library_count', (req, res) => {
-  connection.query('SELECT count(*) FROM schoo_library', (error, results, fields) => {
+  connection.query('SELECT count(*) FROM school_library', (error, results, fields) => {
     console.log("results: ", results);
     if (error) {
       console.error('Error fetching contacts: ', error);
@@ -161,7 +170,7 @@ app.get('/library_count', (req, res) => {
 });
 app.post('/free', (req, res) => {
   const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM free_table LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM free_table ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -183,7 +192,7 @@ app.get('/free_count', (req, res) => {
 });
 app.post('/testimony', (req, res) => {
   const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM testimony LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM testimony ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -205,7 +214,7 @@ app.get('/testimony_count', (req, res) => {
 });
 app.post('/photo', (req, res) => {
   const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM photo LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM photo ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -227,7 +236,7 @@ app.get('/photo_count', (req, res) => {
 });
 app.post('/school_photo', (req, res) => {
   const {startRow, pageSize} = req.body
-  connection.query(`SELECT * FROM school_photo LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
+  connection.query(`SELECT * FROM school_photo ORDER BY id DESC LIMIT ${pageSize} OFFSET ${startRow}`, (error, results, fields) => {
     if (error) {
       console.error('Error fetching contacts: ', error);
       res.status(500).json({ error: 'Error fetching contacts' });
@@ -401,4 +410,121 @@ app.post('/login', (req, res) => {
   });
 
  
+});
+
+app.post('/write_sermon', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO sermon (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.post('/write_column', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO column_table (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.post('/write_column', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO column_table (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.post('/write_small', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO class_table (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.post('/write_weekly', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO weeks_Script (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.post('/write_library', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO school_library (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.post('/write_free', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO free_table (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.post('/write_testimony', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO testimony (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.post('/write_notice', (req, res) => {
+  const {writer, title, content} = req.body;
+  connection.query(`INSERT INTO notice (writer ,title, content) VALUES ('${writer}', '${title}', '${content}');
+`, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching contacts: ', error);
+      res.status(500).json({ error: 'Error fetching contacts' });
+      return;
+    }
+    res.json(results);
+  });
 });
